@@ -1,0 +1,46 @@
+body {
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.top-bar {
+    position: fixed;
+    top: 0;
+    width: 98%;
+    height: 40px;
+    background-color: #3c4a58;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    right: 0px;
+    padding: 0 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+  
+.progress {
+    font-weight: bold;
+}
+  
+.icon {
+    font-size: 18px;
+}
+  
+.username {
+    font-style: italic;
+}
+.h1s{
+    margin-top: 10%;
+    color: #333;
+}
+.undcla1{
+    font-size: 20px;
+    min-width: 500px;
+    border: blue solid 1px;
+}
+.undcla{
+    font-size: 10px;
+}
