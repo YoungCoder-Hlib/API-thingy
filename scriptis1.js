@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const container = document.getElementById('inn-container');
             container.innerHTML = '';
             data.forEach((item, idx) => {
-                // Відображаємо тільки ті, що мають posterLink
                 if (!item.posterLink) return;
 
                 const card = document.createElement('div');
@@ -19,12 +18,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 card.style.width = '300px';
                 card.style.minHeight = '120px';
 
-                // Назва (тимчасово просто номер постеру)
+                // Назва (номер постеру)
                 const title = document.createElement('div');
                 title.style.fontWeight = 'bold';
                 title.style.marginBottom = '10px';
                 title.textContent = `Постер #${idx + 1}`;
                 card.appendChild(title);
+
+                // Кнопки
+                const btns = document.createElement('div');
+                btns.style.marginTop = '10px';
+
+                // Кнопка "Деталі роботи"
+                if (item.detailsLink) {
+                    const detailsBtn = document.createElement('a');
+                    detailsBtn.href = item.detailsLink;
+                    detailsBtn.target = '_blank';
+                    detailsBtn.textContent = 'Деталі роботи';
+                    detailsBtn.style.background = '#2196f3';
+                    detailsBtn.style.padding = '6px 12px';
+                    detailsBtn.style.borderRadius = '5px';
+                    detailsBtn.style.textDecoration = 'none';
+                    detailsBtn.style.color = '#fff';
+                    detailsBtn.style.marginRight = '10px';
+                    btns.appendChild(detailsBtn);
+                }
 
                 // Кнопка "Дивитись постер"
                 const posterBtn = document.createElement('a');
@@ -37,7 +55,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 posterBtn.style.textDecoration = 'none';
                 posterBtn.style.color = '#fff';
 
-                card.appendChild(posterBtn);
+                btns.appendChild(posterBtn);
+                card.appendChild(btns);
                 container.appendChild(card);
             });
         });
