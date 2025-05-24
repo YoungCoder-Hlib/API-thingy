@@ -1,19 +1,48 @@
 let MATHS = [];
-document.addEventListener('DOMContentLoaded', () => {
+let MATHS1 = [];
+let selectedValue = "Всі категорії";
+let selectedValue2 = "All";
+let arrow = document.querySelector("#fullyopen");
+let YTM1 = document.querySelector("#YTM1");
+let YTM2 = document.querySelector("#YTM2");
+let chosen = "Projects";
+let objData = [];
+const ObjFiles = {
+    "Математика": 'math.json',
+    "Економіка": 'Economika.json',
+    "Фізика і астрономія": 'PsycistAndSpace.json'
+};
+YTM1.addEventListener("change", function() {
+    const container = document.getElementById('inn-container');
+    chosen = this.value;
+    console.log("Вибрано:", chosen);
+    container.innerHTML = '';
+    reload();
+});
+function reload(){
+if (chosen == "Projects"){
     fetch('jasu2025_data.json')
         .then(response => response.json())
         .then(data => {
-            const selectedValue;
             const container = document.getElementById('inn-container');
-            container.innerHTML = '';
+            const selectElement = document.getElementById("YTMS");
             function createdat(){
-            data.forEach((item, idx) => {
-                if (!item.posterLink) return;
-                for (let i = 0; i < data.length; i++) {
-                    if(data[i].department == )
-                    MATHS.push(data[i].region);
-                }
-                const card = document.createElement('div');
+                    container.innerHTML = '';
+
+                    let filtered = data;
+
+                    if (selectedValue !== "Всі категорії") {
+                        filtered = filtered.filter(item => item.department === selectedValue);
+                    }
+
+                    if (selectedValue2 !== "All") {
+                        filtered = filtered.filter(item => item.region === selectedValue2);
+                    }
+
+                    MATHS1 = filtered;
+                    console.log("MATHS1", MATHS1);
+                MATHS1.forEach((item, idx) => {
+                    const card = document.createElement('div');
                 card.style.background = '#fff';
                 card.style.margin = '20px';
                 card.style.padding = '20px';
@@ -46,8 +75,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     detailsBtn.style.marginRight = '10px';
                     btns.appendChild(detailsBtn);
                 }
-
-
                 const posterBtn = document.createElement('a');
                 posterBtn.href = item.posterLink;
                 posterBtn.target = '_blank';
@@ -70,15 +97,112 @@ document.addEventListener('DOMContentLoaded', () => {
                 btns.appendChild(posterBtn);
                 card.appendChild(btns);
                 container.appendChild(card);
+                });
+            }
+
+            selectElement.addEventListener("change", function(e) {
+                if(chosen == "Projects"){
+                selectedValue = e.target.value;
+                createdat();
+                console.log("Вибрано:", selectedValue);
+                }
+            });
+            YTM2.addEventListener("change", function() {
+            if (chosen == "Projects") {
+            const container = document.getElementById('inn-container');
+            container.innerHTML = '';
+            selectedValue2 = YTM2.value;
+            createdat();
+            }
+            });
+            // Можеш встановити значення за замовчуванням
+            selectedValue = selectElement.value;
+            createdat();
+            uRF();
+            function uRF() {
+            const regions = Array.from(new Set(data.map(i => i.region).filter(Boolean))).sort();
+            console.log("Regions:", regions);
+            YTM2.innerHTML = '<option value="All">Всі</option>';
+            regions.forEach(reg => {
+            const opt = document.createElement('option');
+            opt.value = reg;
+            opt.textContent = reg;
+            YTM2.appendChild(opt);
             });
         }
-        createdat();
-            const selectElement = document.getElementById("YTMS");
-            selectElement.addEventListener("change", function () {
-            container.innerHTML = "";
-            selectedValue = this.value;
-            
-            console.log("Вибрано:", selectedValue);
-            });
         });
+    } else if (chosen == "Winners") {
+    const selectElement = document.getElementById("YTMS");
+    selectedValue = selectElement.value; // ← без let
+    RELEASE(); // ← викликаємо одразу
+
+    selectElement.addEventListener("change", function () {
+        if (chosen == "Winners") {
+            selectedValue = this.value;
+            RELEASE();
+        }
+    });
+
+    function RELEASE() {
+        fetch(ObjFiles[selectedValue])
+            .then(response => response.json())
+            .then(data => {
+                objData = data.filter(item => item.title);
+                console.log("Cards Data:", objData);
+                uRF();
+                renderCards(); // ← додай сюди
+            });
+    }
+
+    function uRF() {
+        const regions = Array.from(new Set(objData.map(i => i.region).filter(Boolean))).sort();
+        console.log("Regions:", regions);
+        YTM2.innerHTML = '<option value="All">Всі</option>';
+        regions.forEach(reg => {
+            const opt = document.createElement('option');
+            opt.value = reg;
+            opt.textContent = reg;
+            YTM2.appendChild(opt);
+        });
+    }
+
+    function renderCards() {
+        const container = document.getElementById('inn-container');
+        const selectedRegion = YTM2.value;
+        container.innerHTML = '';
+        objData.forEach(item => {
+            if (selectedRegion === 'All' || item.region === selectedRegion) {
+                const card = document.createElement('div');
+                card.className = 'project-card';
+                card.innerHTML = `
+                    <div class="titlecard">${item.title}</div>
+                    <div class="regioncard"><b>Область:</b> ${item.region || ''}</div>
+                    <div class="card-place"><b>Місце:</b> ${item.place || '-'}</div>
+                `;
+                container.appendChild(card);
+            }
+        });
+    }
+    YTM2.addEventListener("change", function() {
+    if (chosen == "Winners") {
+         const container = document.getElementById('inn-container');
+         container.innerHTML = '';
+        renderCards();
+    }
 });
+}
+
+}
+arrow.addEventListener("click", function() {
+    const container = document.getElementById('settings');
+    const width = parseInt(getComputedStyle(container).width);
+    console.log("Width", width); 
+    if (width > 50) {
+        container.style.width = "50px";
+        arrow.textContent = "←";
+    } else if(width <= 50){
+        container.style.width = "800px";
+        arrow.textContent = "→";
+    }
+});
+reload();

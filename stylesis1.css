@@ -37,10 +37,30 @@ body {
     color: #333;
 }
 .undcla1{
+    margin-top: 50px;
     font-size: 20px;
-    min-width: 500px;
+    min-width: 200px;
+    max-width: 600px;
     border: blue solid 1px;
 }
 .undcla{
     font-size: 10px;
+}
+#settings{
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 50px;
+    height: 100%;
+    background-color: grey;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    transition-duration: 2s;
+}
+#fullyopen{
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    right: 95%;
+    top: 50%;
 }
