@@ -10,7 +10,8 @@ let objData = [];
 const ObjFiles = {
     "Математика": 'math.json',
     "Економіка": 'Economika.json',
-    "Фізика і астрономія": 'PsycistAndSpace.json'
+    "Фізика і астрономія": 'PsycistAndSpace.json',
+     "Філософія та суспільствознавство": 'Phylosophy.json'
 };
 YTM1.addEventListener("change", function() {
     const container = document.getElementById('inn-container');
@@ -133,8 +134,8 @@ if (chosen == "Projects"){
         });
     } else if (chosen == "Winners") {
     const selectElement = document.getElementById("YTMS");
-    selectedValue = selectElement.value; // ← без let
-    RELEASE(); // ← викликаємо одразу
+    selectedValue = selectElement.value; 
+    RELEASE();
 
     selectElement.addEventListener("change", function () {
         if (chosen == "Winners") {
@@ -150,7 +151,7 @@ if (chosen == "Projects"){
                 objData = data.filter(item => item.title);
                 console.log("Cards Data:", objData);
                 uRF();
-                renderCards(); // ← додай сюди
+                renderCards(); 
             });
     }
 
@@ -173,7 +174,7 @@ if (chosen == "Projects"){
         objData.forEach(item => {
             if (selectedRegion === 'All' || item.region === selectedRegion) {
                 const card = document.createElement('div');
-                card.className = 'project-card';
+                card.className = 'card';
                 card.innerHTML = `
                     <div class="titlecard">${item.title}</div>
                     <div class="regioncard"><b>Область:</b> ${item.region || ''}</div>
@@ -197,10 +198,10 @@ arrow.addEventListener("click", function() {
     const container = document.getElementById('settings');
     const width = parseInt(getComputedStyle(container).width);
     console.log("Width", width); 
-    if (width > 50) {
-        container.style.width = "50px";
+    if (width > 10) {
+        container.style.width = "10px";
         arrow.textContent = "←";
-    } else if(width <= 50){
+    } else if(width <= 10){
         container.style.width = "800px";
         arrow.textContent = "→";
     }

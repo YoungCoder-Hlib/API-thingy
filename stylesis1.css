@@ -50,7 +50,7 @@ body {
     position: fixed;
     top: 0;
     right: 0;
-    width: 50px;
+    width: 10px;
     height: 100%;
     background-color: grey;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
@@ -63,4 +63,37 @@ body {
     height: 30px;
     right: 95%;
     top: 50%;
+    user-select: none;
+}
+.titlecard {
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+}
+
+.regioncard {
+  font-weight: bold;
+  color: white;
+  background-color: blue;
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin-bottom: 6px;
+}
+
+.cardplace {
+  font-size: 0.95rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+.card {
+  background: #fff;
+  margin: 20px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: inline-block;
+  vertical-align: top;
+  width: 300px;
+  min-height: 120px;
 }
