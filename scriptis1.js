@@ -5,6 +5,7 @@ let selectedValue2 = "All";
 let arrow = document.querySelector("#fullyopen");
 let YTM1 = document.querySelector("#YTM1");
 let YTM2 = document.querySelector("#YTM2");
+let searchInput = document.querySelector("#searchInput");
 let chosen = "Projects";
 let objData = [];
 const ObjFiles = {
@@ -20,6 +21,11 @@ YTM1.addEventListener("change", function() {
     container.innerHTML = '';
     reload();
 });
+searchInput.addEventListener("input", function() {
+        if (chosen == "Projects") {
+        reload();
+    }
+    });
 function reload(){
 if (chosen == "Projects"){
     fetch('jasu2025_data.json')
@@ -39,6 +45,15 @@ if (chosen == "Projects"){
                     if (selectedValue2 !== "All") {
                         filtered = filtered.filter(item => item.region === selectedValue2);
                     }
+
+                    if (searchInput.value.trim() !== "") {
+                        const search = searchInput.value.trim().toLowerCase();
+                        filtered = filtered.filter(item => {
+                            return (item.title && item.title.toLowerCase().includes(search)) ||
+                                   (item.region && item.region.toLowerCase().includes(search)) 
+                        });
+                    }
+
 
                     MATHS1 = filtered;
                     console.log("MATHS1", MATHS1);
@@ -166,19 +181,30 @@ if (chosen == "Projects"){
             YTM2.appendChild(opt);
         });
     }
-
+    searchInput.addEventListener("input", function() {
+        if( chosen == "Winners") {
+        renderCards();
+        }
+    });
     function renderCards() {
         const container = document.getElementById('inn-container');
         const selectedRegion = YTM2.value;
+        const search = searchInput.value.trim().toLowerCase();
         container.innerHTML = '';
         objData.forEach(item => {
-            if (selectedRegion === 'All' || item.region === selectedRegion) {
+            console.log("item:", item.title, item.region, item.number);
+             if ((selectedRegion === 'All' || item.region === selectedRegion) && (!search || (item.title && item.title.toLowerCase().includes(search)) || (item.region && item.region.toLowerCase().includes(search)) || (item.number && item.number.toString().includes(search)))) {
                 const card = document.createElement('div');
                 card.className = 'card';
                 card.innerHTML = `
-                    <div class="titlecard">${item.title}</div>
-                    <div class="regioncard"><b>Область:</b> ${item.region || ''}</div>
-                    <div class="card-place"><b>Місце:</b> ${item.place || '-'}</div>
+                    <div class="card-number">№${item.number || ''}</div>
+                    <div class="card-title">${item.title || ''}</div>
+                    <div class="card-region"><b>Область:</b> ${item.region || ''}</div>
+                    <div class="card-class"><b>Клас/Курс:</b> ${item.class || ''}</div>
+                    <div class="card-section"><b>Секція:</b> ${item.section || ''}</div>
+                    <div class="card-score"><b>Сума балів:</b> ${item.totalScore || ''}</div>
+                    <div class="card-rating"><b>Рейтинг:</b> ${item.rating || ''}</div>
+                    <div class="card-place"><b>Місце:</b> ${item.place !== 0 ? item.place : '-'}</div>
                 `;
                 container.appendChild(card);
             }
